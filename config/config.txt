@@ -1,0 +1,17 @@
+# Boot configuration for kiosk mode
+# Disable splash screen (we'll use our own)
+disable_splash=1
+
+# GPU memory (increase for better performance)
+gpu_mem=256
+
+# HDMI settings for full screen
+hdmi_force_hotplug=1
+hdmi_group=2
+hdmi_mode=82  # 1920x1080 60Hz
+
+# Disable overscan
+disable_overscan=1
+
+# Boot to console (not desktop)
+# (We'll start X manually for kiosk mode)

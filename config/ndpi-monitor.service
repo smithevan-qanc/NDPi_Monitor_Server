@@ -1,0 +1,16 @@
+[Unit]
+Description=NDPi Monitor Web Server
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=ndpi-server
+WorkingDirectory=/home/ndpi-server/ndpi-monitor
+ExecStart=/usr/bin/node /home/ndpi-server/ndpi-monitor/server.js
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
