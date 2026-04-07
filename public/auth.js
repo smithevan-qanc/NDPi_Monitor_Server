@@ -1,3 +1,5 @@
+const redirectSignIn = () => { window.location.href = '/signin.html'; }
+
 (() => {
     console.log(window.location);
     if (window.location.pathname === '/signin.html') {
@@ -5,8 +7,6 @@
         localStorage.removeItem('ndpi_account_id');
     }
 })();
-
-const redirectSignIn = () => { window.location.href = '/signin.html'; }
 
 async function signIn(pin) {
     if (pin.length !== 4 && pin.length !== 6) {
@@ -24,8 +24,6 @@ async function signIn(pin) {
         
         if (res.ok) {
             localStorage.setItem('ndpi_token', data.account.token);
-            //localStorage.setItem('ndpi_account_id', data.account.id);
-            //localStorage.setItem('ndpi_account', JSON.stringify(data.account));
             
             if (data.account.firstTimeLogin) {
                 window.location.href = '/set-pin.html';

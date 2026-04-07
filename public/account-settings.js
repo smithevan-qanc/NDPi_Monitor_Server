@@ -1,7 +1,21 @@
-(() => {
-    applyActiveNav('navAccount');
+let account = {};
+const ws = initWebSocket();
 
+(() => {
+    setScale();
+    setNavigationButtons();
+    applyActiveNav('navAccount');
+})();
+
+(async () => {
+    account = await loadUserAccount();
     populateFields();
+
+    function populateFields() {
+        document.getElementById('username').textContent = account.username;
+        document.getElementById('firstName').value = account.firstName;
+        document.getElementById('lastName').value = account.lastName;
+    }
 
     document.getElementById('update-profile').addEventListener('click', async function(e) {
         e.preventDefault();
@@ -26,9 +40,3 @@
     });
 
 })();
-
-function populateFields() {
-    document.getElementById('username').textContent = account.username;
-    document.getElementById('firstName').value = account.firstName;
-    document.getElementById('lastName').value = account.lastName;
-}

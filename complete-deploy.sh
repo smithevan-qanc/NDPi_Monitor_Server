@@ -113,7 +113,6 @@ fi
 # Continue to main() function.....
 #
 
-# Function to deploy NDI SDK to server
 deploy_ndi_sdk() {
     log_info "Deploying NDI SDK..."
 
@@ -139,7 +138,6 @@ deploy_ndi_sdk() {
     log_success "NDI SDK deployed"
 }
 
-# Function to compile NDI discovery tool
 compile_ndi_discover() {
     log_info "Compiling NDI discovery tool..."
 
@@ -155,7 +153,6 @@ compile_ndi_discover() {
     log_success "NDI discovery tool compiled"
 }
 
-# Function to deploy server files
 deploy_server() {
     log_info "Deploying program files..."
 
@@ -173,23 +170,31 @@ deploy_server() {
     log_success "Program files deployed."
 }
 
-# Function to install system dependencies
 install_system_deps() {
     log_info "Installing system dependencies..."
 
     ssh "${USER}@${IP}" "
         sudo apt update && \
-        sudo apt install -y xserver-xorg xinit plymouth plymouth-themes avahi-daemon git curl wget fbi unclutter openbox lightdm
+        sudo apt install -y xserver-xorg \
+        xinit \
+        plymouth \
+        plymouth-themes \
+        avahi-daemon \
+        git \
+        curl \
+        wget \
+        fbi \
+        unclutter \
+        openbox \
+        lightdm
     "
 
     log_success "System dependencies installed"
 }
 
-# Function to install Node.js
 install_nodejs() {
     log_info "Installing Node.js..."
 
-    # Check if Node.js is already installed
     if ssh "${USER}@${IP}" "node --version >/dev/null 2>&1"; then
         log_warning "Node.js already installed"
         return
@@ -203,7 +208,6 @@ install_nodejs() {
     log_success "Node.js installed"
 }
 
-# Function to install Node.js dependencies
 install_node_deps() {
     log_info "Installing Node Package Manager..."
     ext_info "Installing DOM Xml Parser..."
@@ -360,7 +364,7 @@ main() {
     sleep 5
     echo ""
     sleep 1
-    ssh "${USER}@${IP} "sudo reboot"
+    ssh "${USER}@${IP}" "sudo reboot"
 }
 
 # Run main function
