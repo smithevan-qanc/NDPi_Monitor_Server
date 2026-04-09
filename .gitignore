@@ -53,3 +53,7 @@ coverage/
 # Temporary files
 tmp/
 temp/
+
+GitHub-Deploy-Server.sh
+complete-deploy-server.sh
+update-GitHubRepo.sh
