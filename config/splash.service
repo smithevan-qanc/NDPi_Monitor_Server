@@ -1,5 +1,5 @@
 [Unit]
-Description=Custom Boot Splash Screen
+Description=NDPi Monitor Boot Splash Overlay
 DefaultDependencies=no
 After=local-fs.target
 Before=lightdm.service

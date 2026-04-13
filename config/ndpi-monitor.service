@@ -1,5 +1,5 @@
 [Unit]
-Description=NDPi Monitor Web Server
+Description=NDPi Monitor Node Server
 After=network.target
 Wants=network.target
 

@@ -1,5 +1,5 @@
 [Unit]
-Description=Chromium Kiosk Mode
+Description=NDPi Monitor GUI
 After=graphical.target ndpi-monitor.service
 Wants=graphical.target
 
@@ -8,10 +8,9 @@ Type=simple
 User=ndpi-server
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/ndpi-server/.Xauthority
-ExecStartPre=/bin/sleep 5
 ExecStart=/usr/bin/chromium --kiosk --disable-infobars --disable-session-crashed-bubble --disable-component-extensions-with-background-pages --no-first-run --disable-default-apps --disable-translate --hide-scrollbars --disable-features=TranslateUI --noerrdialogs --disable-web-security --touch-events=enabled --user-data-dir=/home/ndpi-server/.config/chromium-kiosk http://localhost:3000/
 Restart=always
-RestartSec=10
+RestartSec=0.5
 
 [Install]
 WantedBy=graphical.target

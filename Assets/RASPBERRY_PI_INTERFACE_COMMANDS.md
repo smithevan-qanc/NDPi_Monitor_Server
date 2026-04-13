@@ -534,6 +534,7 @@ sudo journalctl --no-pager -n 100
 
 # Service-specific logs
 sudo journalctl -u ndpi-monitor-client --since "10 minutes ago"
+sudo journalctl -u ndpi-monitor --since "10 minutes ago"
 
 # Boot logs
 sudo journalctl -b

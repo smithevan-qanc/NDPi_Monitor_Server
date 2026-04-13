@@ -59,6 +59,7 @@ function startupConsoleLog() {
 ════════════════════════════════════════════════════════════════
 `);
 }
+const CRLFArray = (string = '') => { return string.split(/\r?\n/); }
 
 /** Begin Heartbeat to all Web GUI sessions.
  *  @param {number} heartbeatInterval - Time in ms between WebSocket heartbeats (10000 = 10sec).
@@ -743,6 +744,69 @@ app.get('/', (req, res) => {
 /**
  *  Server API
  */
+
+app.post('/api/resolution', express.json(), (req, res) => {
+    const { output, resolution, rate } = req.body;
+    console.log(req.body);
+    if (!resolution) {
+        return res.status(400).json({
+            error: true,
+            message: 'Missing resolution. (e.g. 1920x1080)',
+        });
+    }
+
+    exec(`DISPLAY=:0 xrandr --output ${output ? output : 'HDMI-1'} --mode ${resolution}${rate ? ` --rate ${rate}` : ''}`, (error, stdout, stderr) => {
+        if (error) {
+            res.status(400).json({
+                error: true,
+                message: stderr
+            });
+        } else {
+            res.json({
+                error: false,
+                message: `Resolution set: ${resolution}.`
+            });
+        }
+    });
+});
+
+app.get('/api/resolution', (req, res) => {
+    exec('DISPLAY=:0 xrandr', (error, stdout, stderr) => {
+        if (error) {
+            return res.status(500).json({ error: true, message: stderr });
+        } else {
+            let resObj = {};
+            const arr = CRLFArray(stdout)
+            arr[0].split(', ').forEach((ln) => {
+                if (ln.includes('current')) {
+                    const splt = ln.trim().split(' ');
+                    resObj.currentSize = `${splt[1]}x${splt[3]}`;
+                }
+            });
+
+            resObj.resolutionOptions = [];
+            
+            arr.forEach((ln) => {
+                const str = ln.trim();
+                if (
+                    str.startsWith('1') || 
+                    str.startsWith('2') || 
+                    str.startsWith('3') || 
+                    str.startsWith('4') || 
+                    str.startsWith('5') || 
+                    str.startsWith('6') || 
+                    str.startsWith('7') || 
+                    str.startsWith('8') || 
+                    str.startsWith('9')
+                ) {
+                    resObj.resolutionOptions.push(str.split(' ')[0]);
+                }
+            });
+            res.json(resObj);
+        }
+    });
+});
+
 app.get('/api/favorite-ndi-sources', (req, res) => {
     try {
         if (fs.existsSync(FAVORITED_SOURCES_FILE)) {
